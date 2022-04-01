@@ -49,6 +49,6 @@ public class ListaCategorias {
             }
             actual = actual.siguiente;
         }while(actual != primera);
-        return null;
+        return actual;
     }
 }

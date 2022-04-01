@@ -4,6 +4,9 @@
  */
 package com.mycompany.serverproject;
 
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Dell
@@ -11,5 +14,7 @@ package com.mycompany.serverproject;
 public class Imagen {
     CategoriaImagen cat;
     String path;
+    ImageIcon img;
     Imagen siguiente, anterior;
+    
 }
