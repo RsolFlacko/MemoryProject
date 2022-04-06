@@ -1,14 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.serverproject;
 
-/**
- *
- * @author Dell
- */
 public class ListaCategorias {
+    //lista circular
     CategoriaImagen primera;
     CategoriaImagen ultima;
     
@@ -22,12 +15,13 @@ public class ListaCategorias {
         nueva.nombre = nombre;
         
         if(primera == null){
+            //la primera es la nueva y la ultima es la nueva por ser circular
             primera = nueva;
             ultima = nueva;
-            primera.siguiente = ultima;
+            primera.siguiente = ultima;//la siguiente es la ultima por ser circular
         }else{
-            ultima.siguiente = nueva;
-            nueva.siguiente = primera;
+            ultima.siguiente = nueva;//la ultima apunta ahora a la nueva
+            nueva.siguiente = primera;//la nueva es la ultima entonces la siguiente es la primera
             ultima = nueva;
         }
     }

@@ -1,25 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.serverproject;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 
-/**
- *
- * @author Dell
- */
 public class SeleccionImagenes extends javax.swing.JFrame {
 
     static ArrayList<Object> seleccionadas;
@@ -33,32 +21,34 @@ public class SeleccionImagenes extends javax.swing.JFrame {
         initComponents();
         error.setVisible(false);
         error2.setVisible(false);
+        //combobox para las categorias
         cats.setPreferredSize(new Dimension(150,100));
+        //combobox para las imagenes de carros
         DefaultComboBoxModel<Icon> dm = new DefaultComboBoxModel<>();
         Imagen iterador = ServerProject.listaImagenes.primera;
-        for(int i = 0; i < 24; i++){
+        for(int i = 0; i < 23; i++){
             if(iterador.cat.nombre.equals("Carros")){
                 dm.addElement(iterador.img);
             }
             iterador = iterador.siguiente;
         }
         cars.setModel(dm);
-        
+        //combobox para las imagenes de estrellas
         stars.setPreferredSize(new Dimension(130,100));
         dm = new DefaultComboBoxModel<>();
         iterador = ServerProject.listaImagenes.primera;
-        for(int i = 0; i < 24; i++){
+        for(int i = 0; i < 23; i++){
             if(iterador.cat.nombre.equals("Estrellas")){
                 dm.addElement(iterador.img);
             }
             iterador = iterador.siguiente;
         }
         stars.setModel(dm);
-        
+        //combobox para las imagenes de heroes
         heroes.setPreferredSize(new Dimension(130,100));
         dm = new DefaultComboBoxModel<>();
         iterador = ServerProject.listaImagenes.primera;
-        for(int i = 0; i < 24; i++){
+        for(int i = 0; i < 23; i++){
             if(iterador.cat.nombre.equals("Heroes")){
                 dm.addElement(iterador.img);
             }
@@ -69,6 +59,7 @@ public class SeleccionImagenes extends javax.swing.JFrame {
         stars.setVisible(false);
         cars.setVisible(false);
         heroes.setVisible(false);
+        //combobox para las categorias
         cats.setPreferredSize(new Dimension(100,20));
         DefaultComboBoxModel<String> dmC = new DefaultComboBoxModel<>();
         CategoriaImagen iteradorCats = ServerProject.cats.primera;
@@ -195,6 +186,8 @@ public class SeleccionImagenes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void agregarImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregarImagenMouseClicked
+        //se agregan las imagenes seleccionadas a una lista de imagenes
+        //y se remueven de la combobox para no volver a elegirlas
         if(nSeleccionadas >= nImagenes){
             error.setVisible(true);
         }else{
@@ -232,6 +225,7 @@ public class SeleccionImagenes extends javax.swing.JFrame {
                 rows = 4;
                 columns = 5;
             }
+            //se pasa a la logica del juego, se inicia
             ServerProject.gl = new GameLogic(rows, columns, nImagenes);
             ServerProject.gl.setVisible(true);
             try {
@@ -261,6 +255,7 @@ public class SeleccionImagenes extends javax.swing.JFrame {
     }//GEN-LAST:event_catsActionPerformed
 
     private void nCartasListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nCartasListActionPerformed
+        //para tener el numero de cartas que se van a utilzar
         if(nCartasList.getSelectedItem().equals("12")){
                 nImagenes = 12/2;
             }else if(nCartasList.getSelectedItem().equals("16")){

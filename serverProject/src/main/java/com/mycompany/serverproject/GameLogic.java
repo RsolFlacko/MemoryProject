@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.serverproject;
 
 import java.io.DataInputStream;
@@ -18,14 +14,15 @@ import javax.swing.JButton;
 
 public class GameLogic extends javax.swing.JFrame{
 
-    static JButton[][] tablero;
-    ImageIcon def = new ImageIcon("def.jpg");
+    static JButton[][] tablero;//el tablero
+    ImageIcon def = new ImageIcon("def.jpg");//iconos para la logica
+    ImageIcon def2 = new ImageIcon("def2.jpg");
     static ArrayList<Object> imgs = SeleccionImagenes.seleccionadas;
-    static int player1score = 0;
+    static int player1score = 0;//los puntajes comienzan en cero
     static int player2score = 0;
     static int r;//rows
     static int c;//columns
-    private static int nImagenes;
+    public static int nImagenes;
     
     public GameLogic(int rows , int columns, int nImagenes){
         c = columns;
@@ -34,16 +31,44 @@ public class GameLogic extends javax.swing.JFrame{
         tablero = new JButton[c][r];
         initComponents();
         tablePAN.setLayout(new java.awt.GridLayout(r, c));
-        initTable();
+        initTable();//se inicia el tablero
         int colocadas = 0;
+        while(colocadas < nImagenes){//mientras que no se hayan colocado todas las cartas
+            int i1 = ThreadLocalRandom.current().nextInt(0,c);//se generan coordenadas random
+            int j1 = ThreadLocalRandom.current().nextInt(0,r);
+            int i2 = ThreadLocalRandom.current().nextInt(0,c);
+            int j2 = ThreadLocalRandom.current().nextInt(0,r);
+            
+            if(tablero[i1][j1].getIcon() != def || tablero[i2][j2].getIcon() != def ||//en caso de que haya una carta 
+                    (j1 == j2 && i2 == i1)){                                        //o las coordenadas sean iguales
+                continue;
+            }
+            //se cambian los iconos
+            tablero[i1][j1].setIcon((Icon) imgs.get(colocadas));
+            tablero[i2][j2].setIcon((Icon) imgs.get(colocadas));
+            
+            colocadas++;//se incrementan las colocadas
+        }
+    }
+    
+    public JButton[][] mixTable(){
+        int colocadas = 0;
+        for(int i = 0; i < c; i++){
+            for(int j = 0; j < r; j++){
+                if(tablero[i][j].getIcon() == def){
+                    continue;
+                }
+                tablero[i][j].setIcon(def2);//se cambia el icono de las cartas par identificar cuales cambiar
+            }
+        }
         while(colocadas < nImagenes){
             int i1 = ThreadLocalRandom.current().nextInt(0,c);
             int j1 = ThreadLocalRandom.current().nextInt(0,r);
             int i2 = ThreadLocalRandom.current().nextInt(0,c);
             int j2 = ThreadLocalRandom.current().nextInt(0,r);
-            
-            if(tablero[i1][j1].getIcon() != def || tablero[i2][j2].getIcon() != def ||
-                    (j1 == j2 && i2 == i1)){
+            //se hace lo mismo que cuando se inicia el tablero
+            if(tablero[i1][j1].getIcon() != def2 || tablero[i2][j2].getIcon() != def2 || 
+                    (j1 == j2 && i2 == i1) ||(tablero[i1][j1].getIcon() == def || tablero[i2][j2].getIcon() == def)){
                 continue;
             }
             
@@ -52,6 +77,7 @@ public class GameLogic extends javax.swing.JFrame{
             
             colocadas++;
         }
+        return tablero;
     }
     
     public final void initTable(){
@@ -68,6 +94,7 @@ public class GameLogic extends javax.swing.JFrame{
     }
     
     void initGame() throws IOException{
+        //se pone al servidor a esperar un cliente
         ServerSocket server = null;
         Socket socket = null;
         final int PUERTO = 5555;
@@ -84,7 +111,8 @@ public class GameLogic extends javax.swing.JFrame{
         String playerString = inRequest.readUTF();
         ArrayList<String> players = new ArrayList<String>(Arrays.asList(playerString.split(",")));
 
-        String tamaño = c + "," + r + "," + ThreadLocalRandom.current().nextInt(1,3);
+        String tamaño = c + "," + r + "," + ThreadLocalRandom.current().nextInt(1,3);//se escribe en el string de 
+                                                                                     //respuesta la info necesaria
         outResponse.writeUTF(tamaño);
         
         player1.setText(players.get(0));
